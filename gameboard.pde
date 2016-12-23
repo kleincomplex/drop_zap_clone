@@ -43,7 +43,7 @@ public class Gameboard {
   // Create a row of blocks. This happens in between drops
   void spawnNewRow() {
     for (int i = 0; i < NUM_COLUMNS ; i++) {
-      grid[i].add(new Block(i) );
+      grid[i].add(new Block() );
     }
   }
   
@@ -63,7 +63,16 @@ public class Gameboard {
             x_step, height - BOTTOM_MARGIN - TOP_MARGIN);
   }
   
-  void dropBlockOntoQuad(int quadrant ) {
+  ////////////// dropBlockOntoQuad
+  // Returns 1 if the result of adding to this column is an overflow
+  public int dropBlockOntoQuad(int column, int size ) {
+    if (column < 0) return 0; // probably throw some error or something
+    this.grid[column].add(new Block(size));
+    if (this.grid[column].size() > NUM_COLUMNS) return 1;
+    return 0;
+  }
+  
+  void drawBlockToDrop( ) {
     
   }
   

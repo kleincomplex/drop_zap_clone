@@ -1,14 +1,16 @@
 // 12/18 JKLEIN
+//
 
 Gameboard game;
+Block blockToDrop;
 int spawn_counter = 0;
 static final int NUM_COLUMNS = 7;
 static final int NUM_ROWS = 10;
 static final int X_SIZE  = 480;
 static final int Y_SIZE  = 640;
-static final int MAX_BLOCK_HP  = 5;
-static final float SIDE_MARGINS  = 35;
-static final float TOP_MARGIN    = 40;
+static final int MAX_BLOCK_SIZE  = 5;
+static final float SIDE_MARGINS  = 45;
+static final float TOP_MARGIN    = 75;
 static final float BOTTOM_MARGIN = 25;
 
 int GAME_STATE;
@@ -18,11 +20,11 @@ static final int PHASE_FALL    = 2;
 static final int PHASE_ZAP     = 3;
 static final int PHASE_GAMEEND = 9;
 
-
 // Initialize
 void setup() {
  size(480, 640); 
  game = new Gameboard(width, height, NUM_COLUMNS);
+ blockToDrop = new Block();
  GAME_STATE = PHASE_SPAWN;
  frameRate(30);
 }
@@ -38,6 +40,7 @@ void draw() {
   if (GAME_STATE == PHASE_CHOOSE )
   {
     game.highlightHoverColumn();
+    game.drawBlockToDrop();
   }
 }
 
@@ -58,7 +61,7 @@ void mouseReleased() {
     float cursor_x = mouseX - SIDE_MARGINS;
     float x_step = (width - (SIDE_MARGINS * 2)) / NUM_COLUMNS ;
     int quadrant = floor( cursor_x / x_step );  
-    game.dropBlockOntoQuad(quadrant);
+    game.dropBlockOntoQuad(quadrant, blockToDrop.getSize());
   }
 }
 
